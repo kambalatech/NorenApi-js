@@ -4,12 +4,18 @@ let { authparams } = require("./cred");
 
 api = new Api({});
 
-function receiveTick(data) {
-    console.log("receiveTick:::::", data);
+function receiveQuote(data) {
+    console.log("Quote ::", data);
+}
+
+function receiveOrders(data) {
+    console.log("Order ::", data);
 }
 
 function open(data) {
-    console.log("app websocket is open");
+    let instruments = 'NSE|22#BSE|500400';
+    api.subscribe(instruments)
+    console.log("subsribing to :: ", instruments);
 }
 
 
@@ -19,10 +25,11 @@ api.login(authparams)
         //cons//ole.log('Reply: ', res);
         params = {
           'socket_open' : open,
-          'tick' : receiveTick,          
+          'quote' : receiveQuote,   
+          'order' : receiveOrders       
         }
 
-        //api.start_websocket(params);
+        api.start_websocket(params);
 
         //return;
         //search scrip example
