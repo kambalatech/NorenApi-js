@@ -683,27 +683,31 @@ send a list of instruments to stop watch
 First configure the endpoints in the api_helper constructor. 
 Thereon provide your credentials and login as follows.
 
-```python
-from api_helper import NorenApiPy
-import logging
+```js
+const Api = require("./lib/RestApi");
 
-#enable dbug to see request and responses
-logging.basicConfig(level=logging.DEBUG)
+authparams = {
+'userid'   : 'USER',
+'password' : 'Abc123',
+'twoFA'    : '01011920',
+'vendor_code' : 'vc',
+'api_secret' : 'secret shared',
+'imei'       : 'machine identifier'
+}
 
-#start of our program
-api = NorenApiPy()
+api = new Api({});
 
-#credentials
-user        = '< user id>'
-u_pwd       = '< password >'
-factor2     = 'second factor'
-vc          = 'vendor code'
-app_key     = 'secret key'
-imei        = 'uniq identifier'
+api.login(authparams)
 
+.then((res) => {        
+        
+        console.log('Reply: ', res);
+        return;
 
-ret = api.login(userid=user, password=pwd, twoFA=factor2, vendor_code=vc, api_secret=app_key, imei=imei)
-print(ret)
+    }).catch((err) => {
+        console.error(err);
+    });
+
 ```
 
 ## <a name="md-example-market"></a> Example Symbol/Contract : Example_market.py

@@ -1,4 +1,4 @@
-const Api = require("./lib/NorenRestApi");
+const Api = require("./lib/RestApi");
 
 let { authparams } = require("./cred");
 
@@ -17,8 +17,6 @@ function open(data) {
     api.subscribe(instruments)
     console.log("subsribing to :: ", instruments);
 }
-
-
 
 api.login(authparams)
 .then((res) => {        
