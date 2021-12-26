@@ -14,7 +14,7 @@ function receiveOrders(data) {
 
 function open(data) {
     let instruments = 'NSE|22#BSE|500400';
-    api.subscribe(instruments)
+    //api.subscribe(instruments)
     console.log("subsribing to :: ", instruments);
 }
 
@@ -22,60 +22,32 @@ function open(data) {
 
 api.login(authparams)
 .then((res) => {        
-        //cons//ole.log('Reply: ', res);
+        console.log('Reply: ', res);
+        
         params = {
           'socket_open' : open,
           'quote' : receiveQuote,   
           'order' : receiveOrders       
         }
 
-        api.start_websocket(params);
-
-        //return;
         //search scrip example
-        //api.searchscrip('NFO', 'NIFTY DEC CE');
+        api.searchscrip('NFO', 'NIFTY DEC CE').then((reply) => { console.log(reply); });
         
         //get quote example
-        //api.get_quotes('NSE', '22')
-        //place order
-        let orderparams = {
-            'buy_or_sell' : 'B',
-            'product_type' : 'C',
-            'exchange' : 'NSE',
-            'tradingsymbol'  :  'CANBK-EQ',
-            'quantity' : 1,
-            'discloseqty' : 0,
-            'price_type' : 'LMT',
-            'price' : 175.0
-        };
+        api.get_quotes('NSE', '22').then((reply) => { console.log(reply); });
 
-        api.place_order(orderparams)
-            .then((reply) => { 
-                console.log(reply);            
+        api.get_orderbook().then((reply) => { console.log(reply); });
 
-        let modifyparams = {
-            'orderno' : reply.norenordno,
-            'exchange' : 'NSE',
-            'tradingsymbol' : 'CANBK-EQ',
-            'newquantity' : 2,
-            'newprice_type' : 'LMT',
-            'newprice' : 176.00
-        }
+        api.get_tradebook().then((reply) => { console.log(reply); });
 
-        api.modify_order(modifyparams)
-            .then((modreply) => { 
-                    console.log(modreply);
-                    api.cancel_order(modreply.result);
-                });
-        });
+        api.get_holdings().then((reply) => { console.log(reply); });
+        
+        api.get_positions().then((reply) => { console.log(reply); });
 
-        //api.get_orderbook()
-        //api.get_tradebook()
-        api.get_holdings()
-        //api.get_positions()
-        .then((reply) => { 
-            console.log(reply);
-        });
+        api.start_websocket(params);
+
+        return;
+        
         
     }).catch((err) => {
         console.error(err);

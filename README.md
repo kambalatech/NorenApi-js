@@ -2,13 +2,13 @@
 
 Api used to connect to NorenOMS
 ****
-
 ## Build
 
-to build this package and install it on your server please use 
+install the npm packages mention in package.json
 
-``` pip install -r requirements.txt ```
+To run the application enter as follows,
 
+```node app.js ```
 
 ****
 
