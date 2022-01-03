@@ -495,7 +495,8 @@ gets the chart date for the symbol
 | exchange | ```string``` | True | Exchange NSE  / NFO / BSE / CDS |
 | token | ```string``` | True | token number of the contract|
 | starttime | ```string``` | True | Start time (seconds since 1 jan 1970) |
-| endtime | ```string``` | True | End Time (seconds since 1 jan 1970)|
+| endtime | ```string``` | False | End Time (seconds since 1 jan 1970)|
+| interval | ```string``` | False | Candle size in minutes (optional field, if not given assume to be “1”)|
 
 the response is as follows,
 
@@ -517,6 +518,17 @@ the response is as follows,
 | v | ```string``` | True | volume  |
 | inoi | ```string``` | True | Interval oi change  |
 | oi | ```string``` | True | oi  |
+
+```
+        let params = {
+            'exchange'  : 'NSE',
+            'token'     :  '22',
+            'starttime' :  '1639280700',           
+            'interval'  : '5'
+            
+        };
+        api.get_time_price_series(params).then((reply) => { console.log(reply); });        
+```
 
 #### <a name="md-get_optionchain"></a> get_option_chain(exchange, tradingsymbol, strikeprice, count):
 gets the chart date for the symbol
