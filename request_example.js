@@ -20,6 +20,8 @@ api.login(authparams)
             
         };
         api.get_time_price_series(params).then((reply) => { console.log(reply); });
+
+        api.forgot_passwordOTP('NIKHESHP','AAAAA1234A').then((reply) => { console.log(reply); });
         return;
         //search scrip example
         api.searchscrip('NFO', 'NIFTY DEC CE').then((reply) => { console.log(reply); });
