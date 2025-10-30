@@ -14,7 +14,10 @@ To run the application enter as follows,
 
 ## API 
 ```NorenApi```
-- [login](#md-login)
+<!-- - [login](#md-login) -->
+- [getOAuthURL](#md-getOAuthURL)
+- [getAccessToken](#md-getAccessToken)
+- [injectOAuthHeader](#md-injectOAuthHeader)
 - [logout](#md-logout)
 - [Forgot_Password_OTP](#md-forgotpasswordOTP)
 
@@ -49,7 +52,7 @@ Example
 - [Market Functions](#md-example-market)
 - [Orders and Trade](#md-example-orders)
 
-#### <a name="md-login"></a> login(userid, password, twoFA, vendor_code, api_secret, imei)
+<!-- #### <a name="md-login"></a> login(userid, password, twoFA, vendor_code, api_secret, imei)
 connect to the broker, only once this function has returned successfully can any other operations be performed
 
 | Param | Type | Optional |Description |
@@ -59,7 +62,44 @@ connect to the broker, only once this function has returned successfully can any
 | twoFA | ```string``` | False | dob/pan |
 | vendor_code | ```string``` | False | vendor code shared  |
 | api_secret | ```string``` | False | your secret   |
-| imei | ```string``` | False | imei identification |
+| imei | ```string``` | False | imei identification | -->
+
+
+#### <a name="md-getOAuthURL"></a> getOAuthURL(cred.oauth_url, cred.client_id)
+Gets the oauth_url and client_id from cred.js file. (To be updated maually for the first time.)
+Returns the OAuth login URL.
+Use the returned URL to obtain the authentication code from redirected URL after successful login.
+Save the authentication code to a varibale to obtain the access token.
+
+Example:
+```
+
+oauthLoginURL = api.getOAuthURL(cred.oauth_url, cred.client_id);
+```
+
+#### <a name="md-getAccessToken"></a> getAccessToken(authCode, cred.Secret_Code,  cred.client_id, cred.UID);
+Gets the Secret_Code, client_id and UID from cred.js file. (To be updated maually for the first time.)
+The auth_code is be supplied by user after getOAuthURL login flow
+Returns the generated access token along with user id, refresh token & account id.
+Access token will be used for all subsequent API calls.
+This function will automatically append to or overwrite the Access_token & Account_ID fileds in cred.js file.
+
+Example:
+```
+[accessToken, userId, refreshToken, accountId] = api.getAccessToken(authCode, cred.Secret_Code, cred.client_id, cred.UID);
+```
+
+#### <a name="md-injectOAuthHeader"></a> api.injectOAuthHeader(cred.Access_token);
+
+getAccessToken() already sets self.__username (UID) and self.__accountid internally.
+Gets the Access_token, UID and Account_ID from cred.js file. 
+Updates the http post request header with the Access_token.
+This header will be used in all seubsequent api calls.
+
+Example:
+```
+injected_headers = api.injectOAuthHeader(cred.Access_token);
+```
 
 #### <a name="md-logout"></a> logout()
 Terminate the session
